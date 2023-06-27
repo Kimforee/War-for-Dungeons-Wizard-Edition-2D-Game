@@ -100,8 +100,6 @@ class Fighter extends Sprite {
           
         console.log(this.sprites)
         }
-    
-    
 
     update(){
      this.draw()
@@ -180,6 +178,15 @@ class Fighter extends Sprite {
                     this.image = this.sprites.run.image
                     this.framesMax = this.sprites.run.framesMax
                     this.framesHold = this.sprites.run.framesHold
+                    this.frameCurrent = 0
+                }
+                break
+            case 'runback':
+                if(this.image !== this.sprites.runback.image)
+                {
+                    this.image = this.sprites.runback.image
+                    this.framesMax = this.sprites.runback.framesMax
+                    this.framesHold = this.sprites.runback.framesHold
                     this.frameCurrent = 0
                 }
                 break

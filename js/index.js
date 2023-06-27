@@ -75,7 +75,7 @@ sprites:{
     run:{
         imageSrc:'./img/EvilWizard/Run.png',
         framesMax:8,
-        framesHold :5
+        framesHold :6
     },
     jump:{
         imageSrc:'./img/EvilWizard/Jump.png',
@@ -93,27 +93,18 @@ sprites:{
         framesMax:8,
         framesHold :2
     },
-    attack21:{
+    attack2:{
         imageSrc:'./img/EvilWizard/Attack1.png',
         framesMax:8,
         framesHold:2
     },
     runback: {
-        
-        imageSrc: './img/EvilWizard/Run.png',
+        imageSrc:'./img/EvilWizard/Runback.png',
         framesMax: 8,
-        framesHold: 5,
-        invertImage: function() {
-            var invertImage = new Image();
-            invertImage.src = './img/EvilWizard/Run.png';
-            invertImage.style.transform = 'scaleX(-1)';
-            this.imageSrc = invertImage.src;
-        }
-        
+        framesHold: 6,
       }
 }
 })
-
 player.draw()
 
 const enemy = new Fighter ({
@@ -200,7 +191,7 @@ function ani() {
     //Player Movement
     
     if (keys.a.pressed && player.lastkey === 'a'){
-        player.switchSprite('run')
+        player.switchSprite('runback')
         if(player.position.x <= 0)
         {
             bonecrack.play();
@@ -224,7 +215,7 @@ function ani() {
         player.switchSprite('idle')
     }
 
-    // Jumping
+    // player Jumping
     if (player.velocity.y < 0)           {
         player.switchSprite('jump')      
     }

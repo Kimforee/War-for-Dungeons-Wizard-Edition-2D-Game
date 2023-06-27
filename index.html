@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>War of Dungeons</title>
+    <link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
     <link rel="stylesheet"href="css/index.css">
     <style>
      *{
@@ -14,8 +15,9 @@
 </head>
 <body>
     <!-- red container div-->
-    <div style="position: relative;
-                display: inline-block;">
+    <div id="gameContainer"style="position: relative;
+                display: inline-block;
+                display: none;">
     <!-- smaller red container div -->  
     <div style="position: absolute; 
                 display: flex;
@@ -49,8 +51,8 @@
                 border-bottom-left-radius: 3px;
                 box-shadow: -6px -6px 14px rgba(255, 255, 255, 0.7),
                 -6px -6px 10px rgba(255, 255, 255, .5),
-                6px 6px 8px rgba(255, 255, 255, .075),
-                6px 6px 10px rgba(0, 0, 0, .15)
+                -6px -6px 8px rgba(255, 255, 255, .075),
+                -6px -6px 10px rgba(0, 0, 0, .15)
                 "></div>
                 </div>
     <!-- timer -->
@@ -85,7 +87,6 @@
                 border-top-right-radius: 3px;
                 border-bottom-right-radius: 3px; 
                 border: none;
-                
                 box-shadow: 6px -6px 10px rgba(255, 255, 255, 0.7),
                 6px -6px 10px rgba(255, 255, 255, .5),
                 6px 6px 8px rgba(255, 255, 255, .075),
@@ -108,9 +109,19 @@
     <canvas id="canvas" width="1024" height="576">
      Your browser does not support the HTML5 canvas tag.
     </canvas>
+    <button id="backtomenuButton">Back</button>
+    </div>
+    <div id="menuContainer">
+      <h1>War for Dungeon</h1>
+      <button id="startButton">Start</button>
+      <br>
+      <button id="optionsButton">Options</button>
+      <br>
+      <button id="exitButton">Exit</button>
     </div>
 <script src="js/utils.js"></script>      
 <script src="js/classes.js"></script>
-<script src="js/index.js"></script>   
+<script src="js/index.js"></script>
+<script src="js/main.js"></script> 
 </body>
 </html> 
