@@ -89,10 +89,28 @@ sprites:{
         framesHold :6
     },
     attack1:{
-        imageSrc:'./img/EvilWizard/Attack1.png',
+        imageSrc:'./img/EvilWizard/Attack2.png',
         framesMax:8,
         framesHold :2
-    }
+    },
+    attack21:{
+        imageSrc:'./img/EvilWizard/Attack1.png',
+        framesMax:8,
+        framesHold:2
+    },
+    runback: {
+        
+        imageSrc: './img/EvilWizard/Run.png',
+        framesMax: 8,
+        framesHold: 5,
+        invertImage: function() {
+            var invertImage = new Image();
+            invertImage.src = './img/EvilWizard/Run.png';
+            invertImage.style.transform = 'scaleX(-1)';
+            this.imageSrc = invertImage.src;
+        }
+        
+      }
 }
 })
 
@@ -142,8 +160,7 @@ velocity: {
     attack1:{
         imageSrc: './img/Demon/PNG/demon-attack.png',
         framesMax:11,
-        framesHold:4
-
+        framesHold:5
     }
 }
 })
@@ -177,7 +194,6 @@ function ani() {
     player.update()
     enemy.update()
     g.update()
-
     player.velocity.x=0
     enemy.velocity.x=0
     
@@ -215,7 +231,6 @@ function ani() {
         else if (player.velocity.y > 0)  {
         player.switchSprite('fall')      
     }
-
 
     //Enemy Movement
     if (keys.ArrowLeft.pressed && enemy.lastkey === 'ArrowLeft'){
@@ -292,6 +307,7 @@ ani()
 
 window.addEventListener('keydown', (event)=> {
     switch(event.key){
+        // Hero
         case 'd':
         keys.d.pressed = true
         player.lastkey = 'd'
@@ -304,8 +320,13 @@ window.addEventListener('keydown', (event)=> {
         player.velocity.y= -20
         break
         case 's':
-        player.attack()
+        player.attack(0)
         break
+        case 'e':
+        player.attack(1)
+        break
+
+        //Enemy
         case 'ArrowRight':
         keys.ArrowRight.pressed = true
         enemy.lastkey = 'ArrowRight'
@@ -318,9 +339,8 @@ window.addEventListener('keydown', (event)=> {
         enemy.velocity.y = -20
         break
         case 'ArrowDown':
-        enemy.attack()
+        enemy.attack(0)
         break
-
     }
 })
 

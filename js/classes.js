@@ -57,7 +57,7 @@ class Fighter extends Sprite {
                 framesHold = 10,
                 offset = {x:0 , y:0},
                 sprites,
-                attackBox ={offset:{}, width: undefined,height:undefined}
+                // attackBox ={offset:{}, width: 0,height:0}
         }){
             super({
                 position,
@@ -77,9 +77,12 @@ class Fighter extends Sprite {
                 y: this.position.y
                 
             },
-            offset: attackBox.offset,
-            width: attackBox.width,
-            height: attackBox.height
+            // offset: attackBox.offset,
+            // width: attackBox.width,
+            // height: attackBox.height
+            offset,
+            width: 100,
+            height: 20
         }
         this.color = color
         this.isAttacking
@@ -94,7 +97,7 @@ class Fighter extends Sprite {
         sprites[sprite].image = new Image()
         sprites[sprite].image.src = sprites[sprite].imageSrc
         }
-
+          
         console.log(this.sprites)
         }
     
@@ -125,24 +128,42 @@ class Fighter extends Sprite {
         this.velocity.y = this.velocity.y + gravity
      }
     }
-
-
-
-    attack()
+    
+    attack(attacktype)
     {
-      this.switchSprite('attack1')
-      this.isAttacking = true
+    if (attacktype == 0)
+    {
+       this.switchSprite('attack1') 
+    } 
+    else if (attacktype == 1)
+    {
+        this.switchSprite('attack21')
+    }
+    this.isAttacking = true
       setTimeout(() => {
         this.isAttacking = 
         false
          }, 100 ); 
     }
+
+    // attack2()
+    // {
+    //   this.switchSprite('attack21')
+    //   this.isAttacking = true
+    //   setTimeout(() => {
+    //     this.isAttacking = 
+    //     false
+    //      }, 100); 
+    // }
     
     switchSprite(sprite)
     {
         if(this.image === this.sprites.attack1.image && 
-            this.frameCurrent< this.sprites.attack1.framesMax - 1) 
+            this.frameCurrent< this.sprites.attack1.framesMax -1) 
         return
+        //  if(this.image === this.sprites.attack21.image &&
+        //     this.frameCurrent< this.sprites.attack21.framesMax -1)
+        // return
         switch (sprite) {
             case 'idle':
                 if(this.image !== this.sprites.idle.image)
@@ -181,7 +202,7 @@ class Fighter extends Sprite {
                 }
                 break
             case 'attack1':
-            if(this.image !== this.sprites.attack1.image)
+                if(this.image !== this.sprites.attack1.image)
             {
                 this.image = this.sprites.attack1.image
                 this.framesMax = this.sprites.attack1.framesMax
@@ -189,8 +210,18 @@ class Fighter extends Sprite {
                 this.frameCurrent = 0
             }
             break
+            case 'attack21':
+                if(this.image !== this.sprites.attack21.image)
+            {
+                this.image = this.sprites.attack21.image
+                this.framesMax = this.sprites.attack21.framesMax
+                this.framesHold = this.sprites.attack21.framesHold
+                this.frameCurrent = 0
+            }
+            break
             default:
                 break;
         }
     }
+
 }
