@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War for Dungeons</title>
+    <link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
+    <link rel="stylesheet"href="css/index.css">
+    <style>
+      *{
+         box-sizing: border-box;
+       } 
+       </style>
+  </head>
+<body>
+    <div id="parentContainer">
+      <div id="menuContainer">
+         <div style="position: absolute; 
+         display: flex;
+         width: 100%;
+         align-items:center;  
+         padding-left: 10px;
+         padding-right: 10px;
+         padding-top: 10px;">10srg
+         
+            <h1 >War for Dungeon</h1>
+            <br>
+                <a class='pageone' style="text-decoration: none;" 
+                    href="index.html">
+                    <button id="startButton">Start</button>
+                </a>
+                <br>
+                    <button class="pageone"  id="exitButton">Exit</button>
+          </div>
+
+      <!-- <div style="position: relative;">
+        <div id="displayText"
+        style="position: absolute;
+                    top: 200px;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: rgb(11, 0, 0);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;">
+        </div>
+      </div> -->
+      
+      <canvas id="maincanvas" 
+      width="1024" height="576">
+      </canvas>
+      </div>
+    </div>
+        <script src="js/utils.js"></script>      
+        <script src="js/classes.js"></script>
+        <script src="js/index.js"></script>
+        <script src="js/main.js"></script> 
+        
+</body>
+</html>

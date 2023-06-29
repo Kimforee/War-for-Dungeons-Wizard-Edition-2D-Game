@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>War of Dungeons</title>
+    <title>War for Dungeons</title>
     <link href='https://fonts.googleapis.com/css?family=Krona One' rel='stylesheet'>
     <link rel="stylesheet"href="css/index.css">
     <style>
      *{
         box-sizing: border-box;
       } 
-    </style>
+      </style>
 </head>
 <body>
-    <!-- red container div-->
-    <div id="gameContainer"style="position: relative;
-                display: inline-block;
-                display: none;">
+  <!-- <div class="menuContainer" id="menuContainer">
+    <h1>War for Dungeon</h1>
+    <button id="startButton">Start</button>
+    <button id="optionsButton">Options</button>
+    <button id="exitButton">Exit</button>
+  </div> -->
+  <div id="parentContainer">
+  <div id="gameContainer">
     <!-- smaller red container div -->  
     <div style="position: absolute; 
                 display: flex;
@@ -95,30 +99,31 @@
                 </div>
                 </div>      
                 </div>
-                <div id="displayText"
-                style="position:absolute;
-                color:whitesmoke;
-                align-items: center;
-                justify-content: center;
-                top: 0; 
-                bottom: 0;
-                left: 0;
-                right: 0;
-                display: none;
-                ">Tie</div>
+                <div style="position: relative;">
+                  <div id="displayText"
+                       style="position: absolute;
+                              top: 320px;
+                              left: 50%;
+                              transform: translate(-50%, -50%);
+                              color: whitesmoke;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;">
+                  </div>
+                </div>
+                
     <canvas id="canvas" width="1024" height="576">
      Your browser does not support the HTML5 canvas tag.
     </canvas>
-    <button id="backtomenuButton">Back</button>
+    <div id="gameController">
+      <a style="text-decoration: none;" href="main.html">
+    <button id="backtomenuButton" style="height: 10px;">Back</button>
+    </a>
+    <button onclick="toggle()" id="pauseButton" style="height: 10px;">Pause</button>
+    <button onclick="restart()" id="restartButton" style="height: 10px;">Restart</button>
+    </div>  
     </div>
-    <div id="menuContainer">
-      <h1>War for Dungeon</h1>
-      <button id="startButton">Start</button>
-      <br>
-      <button id="optionsButton">Options</button>
-      <br>
-      <button id="exitButton">Exit</button>
-    </div>
+  </div>
 <script src="js/utils.js"></script>      
 <script src="js/classes.js"></script>
 <script src="js/index.js"></script>

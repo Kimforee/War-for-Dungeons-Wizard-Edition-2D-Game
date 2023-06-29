@@ -114,6 +114,7 @@ class Fighter extends Sprite {
                 )
      this.position.y = this.position.y + this.velocity.y
      this.position.x = this.position.x + this.velocity.x
+     
     //  gravity function 
      if(this.position.y + this.height + this.velocity.y >=canvas.height-50)
      {
@@ -135,7 +136,7 @@ class Fighter extends Sprite {
     } 
     else if (attacktype == 1)
     {
-        this.switchSprite('attack21')
+       this.switchSprite('attack2')
     }
     this.isAttacking = true
       setTimeout(() => {
@@ -144,24 +145,14 @@ class Fighter extends Sprite {
          }, 100 ); 
     }
 
-    // attack2()
-    // {
-    //   this.switchSprite('attack21')
-    //   this.isAttacking = true
-    //   setTimeout(() => {
-    //     this.isAttacking = 
-    //     false
-    //      }, 100); 
-    // }
-    
     switchSprite(sprite)
     {
-        if(this.image === this.sprites.attack1.image && 
-            this.frameCurrent< this.sprites.attack1.framesMax -1) 
-        return
-        //  if(this.image === this.sprites.attack21.image &&
-        //     this.frameCurrent< this.sprites.attack21.framesMax -1)
-        // return
+        if (this.image === this.sprites.attack1.image && this.frameCurrent < this.sprites.attack1.framesMax - 1) {
+        return;
+        }
+        if (this.image === this.sprites.attack2.image && this.frameCurrent < this.sprites.attack2.framesMax - 1) {
+        return;
+        }
         switch (sprite) {
             case 'idle':
                 if(this.image !== this.sprites.idle.image)
@@ -208,6 +199,16 @@ class Fighter extends Sprite {
                     this.frameCurrent = 0
                 }
                 break
+            case 'attack2':
+                    if(this.image !== this.sprites.attack2.image)
+                {
+                    this.image = this.sprites.attack2.image
+                    this.framesMax = this.sprites.attack2.framesMax
+                    this.framesHold = this.sprites.attack2.framesHold
+                    this.frameCurrent = 0
+                }
+                break
+            
             case 'attack1':
                 if(this.image !== this.sprites.attack1.image)
             {
@@ -217,12 +218,12 @@ class Fighter extends Sprite {
                 this.frameCurrent = 0
             }
             break
-            case 'attack21':
-                if(this.image !== this.sprites.attack21.image)
+            case 'hit':
+                if(this.image !== this.sprites.hit.image)
             {
-                this.image = this.sprites.attack21.image
-                this.framesMax = this.sprites.attack21.framesMax
-                this.framesHold = this.sprites.attack21.framesHold
+                this.image = this.sprites.hit.image
+                this.framesMax = this.sprites.hit.framesMax
+                this.framesHold = this.sprites.hit.framesHold
                 this.frameCurrent = 0
             }
             break

@@ -15,13 +15,14 @@ function rcollision({ rectangle1,rectangle2 }) {
       {
           document.querySelector('#displayText').innerHTML = 'Tie' 
          } else if (player.health > enemy.health) {
-          document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
           ghost.update()
+          document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
+
          } else if (player.health < enemy.health) {
+           skull.update()  
           document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
-          skull.update()
-         }
-      
+         
+         }   
   }
   let timer = 60 
   let timerId
@@ -35,6 +36,12 @@ function rcollision({ rectangle1,rectangle2 }) {
       if (timer === 0) 
       {
           determineWinner({player, enemy, timerId})
-      }
-      
+      }   
+  }
+  function pauseTimer(){
+    clearTimeout(timerId);
+  }
+  function resetall(){
+    enemy.health  = 100;
+    player.health = 100;
   }

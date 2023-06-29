@@ -102,7 +102,12 @@ sprites:{
         imageSrc:'./img/EvilWizard/Runback.png',
         framesMax: 8,
         framesHold: 6,
-      }
+      },
+    hit:{
+        imageSrc:'./img/EvilWizard/Take hit.png',
+        framesMax:3,
+        framesHold:10,
+    }
 }
 })
 player.draw()
@@ -112,12 +117,12 @@ const enemy = new Fighter ({
     x:880,
     y:100
 },
-velocity: {
+   velocity: {
     x: 0,
     y: 0
 },
   offset:{
-    x:-70,
+    x:0,
     y:0
   },
   imageSrc:'./img/Demon/PNG/demon-idle.png',
@@ -136,30 +141,38 @@ velocity: {
     run:{
         imageSrc: './img/Demon/PNG/demon-idle.png',
         framesMax:6,
-           framesHold:5
+        framesHold:5
     },
     jump:{
         imageSrc: './img/Demon/PNG/demon-idle.png',
         framesMax:6,
-           framesHold:5
+        framesHold:5
     },
     fall:{
         imageSrc: './img/Demon/PNG/demon-idle.png',
         framesMax:6,
-           framesHold:5
+        framesHold:5
     },
     attack1:{
+        imageSrc: './img/Demon/PNG/demon-attack1.png',
+        framesMax:11,
+        framesHold:5,
+    },
+    attack2:{
         imageSrc: './img/Demon/PNG/demon-attack.png',
         framesMax:11,
         framesHold:5
+    },
+    runback:{
+        imageSrc: './img/Demon/PNG/demon-flyback.png',
+        framesMax:6,
+        framesHold:5,
     }
 }
 })
 
 enemy.draw()
-
 console.log(player)
-
 const keys = {
     a: {
     pressed: false
@@ -246,14 +259,13 @@ function ani() {
         else{
         enemy.velocity.x = 6
             }
-        enemy.switchSprite('run')
+        enemy.switchSprite('runback')
      }else{
         enemy.switchSprite('idle')
     }               
-    
 
     //Jumping
-    if (enemy.velocity.y < 0)
+    if (enemy.velocity.y < 0 && enemy.position.y == 0)
     {
         enemy.switchSprite('jump')
        
@@ -276,16 +288,13 @@ function ani() {
            console.log("Bitch")
     }
     //detect for collision for enemy
-    if(rcollision({
-        rectangle1: enemy,
-        rectangle2: player
-                        })
-        && enemy.isAttacking)
+    if(rcollision({rectangle1: enemy,rectangle2: player})&& enemy.isAttacking)
         {enemy.isAttacking = false
             hitenemy.play();
             player.health -= 5
             document.querySelector('#playerHealth').style.width = player.health + '%'
             console.log("HA HA HA nigga")
+            player.switchSprite('hit')
         }
         // end game based on health
         if (enemy.health <= 0 || player.health <=0)
@@ -344,7 +353,7 @@ window.addEventListener('keyup', (event)=>{
         keys.a.pressed = false
         break
     }
-
+    
     //Enemy Keys
     switch(event.key){
         case 'ArrowRight':

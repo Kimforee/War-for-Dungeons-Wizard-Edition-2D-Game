@@ -1,49 +1,45 @@
-const startButton   = document.getElementById('startButton');
-const optionsButton = document.getElementById('optionsButton');
-const exitButton    = document.getElementById('exitButton');
-const backtomenuButton = document.getElementById('backtomenuButton');
-
-startButton.addEventListener('mouseover', () =>{
-    startButton.classList.add('button-zoom');
-})
-startButton.addEventListener('mouseout', () =>{
+// start button wobble effect
+const startButton      = document.getElementById('startButton');
+startButton.addEventListener ('mousemove', () =>{
     startButton.classList.add('button-zoom');
 })
 
-startButton.addEventListener('click',() =>{
-    showGameContainer();
-});
+startButton.addEventListener  ('mouseout', () =>{
+    startButton.classList.add('button-zoom');
+})
 
-optionsButton.addEventListener('click',() =>{
-    showSoundContainer();
-});
-
-exitButton.addEventListener('click',() =>{
+// const optionsButton    = document.getElementById('optionsButton');
+    
+const exitButton = document.getElementById('exitButton');
+exitButton.addEventListener   ('click',() =>{
     window.close();
-});
-
-backtomenuButton.addEventListener('click',() =>{
-    showMainContainer();
 })
 
-function showGameContainer() {
-    const menuContainer = document.getElementById('menuContainer');
-    const gameContainer = document.getElementById('gameContainer');
-    menuContainer.style.display = 'none';
-    gameContainer.style.display = 'block';
+// Pause the Game
+function toggle(){
+    var resumeButton = document.getElementById('pauseButton');
+    if (resumeButton.innerHTML === 'Pause'){
+        resumeButton.innerHTML ='Resume';
+        pauseTimer();
+    } else {
+        resumeButton.innerHTML = 'Pause'
+        decreaseTimer();
+    }
+};
+
+// Restart game
+function restart(){
+    location.reload();
 }
 
-function showSoundContainer(){
-    const menuContainer  = document.getElementById('menuContainer');
-    const soundContainer = document.getElementById('soundContainer');
-    menuContainer.style.display = 'block';
-    soundContainer.style.display = 'none';
-}
-
-function showMainContainer(){
-    const menuContainer = document.getElementById('menuContainer');
-    const gameContainer = document.getElementById('gameContainer');
-    menuContainer.style.display = 'block';
-    gameContainer.style.display = 'none';
-}
-
+// To load the main menu
+function loadPage(url) {
+    fetch(url)
+      .then(response => response.text("loading"))
+      .then(html => {
+        document.getElementById('menuContainer').innerHTML = html;
+      })
+      .catch(error => {
+        console.log('Error loading page:', error);
+      });
+  }
