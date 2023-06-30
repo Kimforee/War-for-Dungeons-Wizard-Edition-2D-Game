@@ -1,6 +1,6 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d') /*c stands for context*/
-const gravity = 1
+const gravity = 1   
 var wallcrash =  new Audio('hugecrack.mp3')
 var bonecrack =  new Audio('broke.mp3')
 var hitenemy  =  new Audio('ene_sound.mp3')
