@@ -45,6 +45,8 @@ class Sprite {
      this.animateFrame()
     }
     
+    
+    
 }
 
 class Fighter extends Sprite {
