@@ -43,8 +43,8 @@ class Spritemenu {
     }
 
     this.draw(context);
-  }
-  }
+   }
+}
 
 
 // Heading animation
@@ -63,62 +63,62 @@ anime({
  
 const l0= new Spritemenu({
         imageSrc: './img/Backlayers/12.png',
-        parallaxSpeed: 1.2,
+        parallaxSpeed: 0.1,
       });
      const l1= new Spritemenu({
 
         imageSrc: './img/Backlayers/11.png',
-        parallaxSpeed: 1.1,
+        parallaxSpeed: 0.2,
       });
     const  l2= new Spritemenu({
 
         imageSrc: './img/Backlayers/10.png',
-        parallaxSpeed: 1.0,
+        parallaxSpeed: 0.3,
       });
     const  l3= new Spritemenu({
 
         imageSrc: './img/Backlayers/9.png',
-        parallaxSpeed: 0.9,
+        parallaxSpeed: 0.4,
       });
     const  l4= new Spritemenu({
 
         imageSrc: './img/Backlayers/8.png',
-        parallaxSpeed: 0.8,
+        parallaxSpeed: 0.5,
       });
     const  l5= new Spritemenu({
 
         imageSrc: './img/Backlayers/7.png',
-        parallaxSpeed: 0.7,
+        parallaxSpeed: 0.6,
       });
     const  l6= new Spritemenu({
 
         imageSrc: './img/Backlayers/6.png',
-        parallaxSpeed: 0.6,
+        parallaxSpeed: 0.7,
       });
      const l7= new Spritemenu({
 
         imageSrc: './img/Backlayers/5.png',
-        parallaxSpeed: 0.5,
+        parallaxSpeed: 0.8,
       });
     const  l8= new Spritemenu({
 
         imageSrc: './img/Backlayers/4.png',
-        parallaxSpeed: 0.4,
+        parallaxSpeed: 1.0,
       });
     const  l9= new Spritemenu({
 
         imageSrc: './img/Backlayers/3.png',
-        parallaxSpeed: 0.3,
+        parallaxSpeed: 1.2,
       });
     const  l10= new Spritemenu({
 
         imageSrc: './img/Backlayers/2.png',
-        parallaxSpeed: 0.2,
+        parallaxSpeed: 1.4,
       });
     const  l11= new Spritemenu({
 
         imageSrc: './img/Backlayers/1.png',
-        parallaxSpeed: 0.1,
+        parallaxSpeed: 1.2,
       });
 
 
@@ -237,18 +237,20 @@ function animation(){
     l7.update(context);
     l8.update(context);
     l9.update(context);
+    moon.update();
+     moon1.update();
     l10.update(context);
     l11.update(context);
     EvilWizard.update()
     skullmenu.update()
-    moon.update()
-    moon1.update()
+    
+   
 
     
 }
 animation()
 
-let direction = 1; // 1 for moving right, -1 for moving left
+let direction = 1;
 let moves = 0;
 
 function movePlayer() {

@@ -36,6 +36,21 @@ const ghost = new Sprite({
     scale : 2,
 })
 
+const breath = new Sprite({
+    position:{
+        x:470,
+        y:440
+    },
+    offset:{
+     x:-170,
+     y:10
+    },
+    imageSrc: './img/Demon/PNG/breath.png',
+    framesMax:5,
+    framesHold:2,
+    scale:1.1
+})
+
 const g = new Sprite({
     position:{
         x:755,
@@ -104,11 +119,19 @@ sprites:{
         framesHold: 6,
       },
     hit:{
-        imageSrc:'./img/EvilWizard/Take hit.png',
+        imageSrc:'./img/EvilWizard/Takehit.png',
         framesMax:3,
-        framesHold:10,
+        framesHold:2,
     }
-}
+},
+attackBox: {
+    offset: {
+      x: 100,
+      y: 0  
+    },
+    width: 100,
+    height: 47
+  }
 })
 player.draw()
 
@@ -129,8 +152,8 @@ const enemy = new Fighter ({
   framesMax:6,
   scale:1,
   offset:{
-    x:50,
-    y:38
+    x:120,
+    y:55
   },
   sprites:{
     idle:{
@@ -154,12 +177,13 @@ const enemy = new Fighter ({
         framesHold:5
     },
     attack1:{
-        imageSrc: './img/Demon/PNG/demon-attack1.png',
+        imageSrc: './img/Demon/PNG/demon-attack2.png',
+        scale:1.4,
         framesMax:11,
         framesHold:5,
     },
     attack2:{
-        imageSrc: './img/Demon/PNG/demon-attack.png',
+        imageSrc: './img/Demon/PNG/demon-attack2.png',
         framesMax:11,
         framesHold:5
     },
@@ -168,7 +192,15 @@ const enemy = new Fighter ({
         framesMax:6,
         framesHold:5,
     }
-}
+},
+attackBox: {
+    offset: {
+      x: 0,
+      y: 0  
+    },
+    width: 110,
+    height: 50
+  }
 })
 
 enemy.draw()
@@ -192,12 +224,12 @@ decreaseTimer()
 
 function ani() {
     window.requestAnimationFrame(ani)
-    c.fillStyle = 'pink'
+    c.fillStyle = 'red'
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
+    breath.update()
     player.update()
     enemy.update()
-    g.update()
     player.velocity.x=0
     enemy.velocity.x=0
     
@@ -245,6 +277,7 @@ function ani() {
           }
          else{
          enemy.velocity.x = -6
+         breath.position.x = enemy.position.x + (-430);
          
              }
         enemy.switchSprite('run')
@@ -258,6 +291,7 @@ function ani() {
         }
         else{
         enemy.velocity.x = 6
+        breath.position.x = enemy.position.x + (-430);
             }
         enemy.switchSprite('runback')
      }else{
@@ -279,23 +313,35 @@ function ani() {
        rectangle1: player,
        rectangle2: enemy
     })
-        && player.isAttacking
+        && player.isAttacking && player.frameCurrent === 6
     ){
            player.isAttacking = false
            hitplayer.play();
            enemy.health -= 5
            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
-           console.log("Bitch")
     }
+    // if player misses attack
+    if (player.isAttacking && player.frameCurrent === 6){
+        player.isAttacking = false
+    }
+
     //detect for collision for enemy
-    if(rcollision({rectangle1: enemy,rectangle2: player})&& enemy.isAttacking)
+    if(rcollision({
+        rectangle1: enemy,
+        rectangle2: player})
+        && enemy.isAttacking && enemy.frameCurrent === 8
+        )
         {enemy.isAttacking = false
             hitenemy.play();
             player.health -= 5
             document.querySelector('#playerHealth').style.width = player.health + '%'
-            console.log("HA HA HA nigga")
             player.switchSprite('hit')
         }
+            // if enemy misses attack
+    if (enemy.isAttacking && enemy.frameCurrent === 8){
+        enemy.isAttacking = false
+    }
+
         // end game based on health
         if (enemy.health <= 0 || player.health <=0)
         {
@@ -339,6 +385,10 @@ window.addEventListener('keydown', (event)=> {
         enemy.velocity.y = -20
         break
         case 'ArrowDown':
+        // const decreasex = 125
+        // const decreasey = 550
+        // enemy.position.x -= decreasex;
+        // enemy.position.y -= decreasey;
         enemy.attack(0)
         break
     }
