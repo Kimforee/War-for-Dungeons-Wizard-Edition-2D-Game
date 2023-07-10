@@ -16,6 +16,7 @@ function rcollision({ rectangle1,rectangle2 }) {
           document.querySelector('#displayText').innerHTML = 'Tie' 
          } else if (player.health > enemy.health) {
           ghost.update()
+          
           document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
 
          } else if (player.health < enemy.health) {

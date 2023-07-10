@@ -38,16 +38,16 @@ const ghost = new Sprite({
 
 const breath = new Sprite({
     position:{
-        x:470,
+        x:755,
         y:440
     },
     offset:{
-     x:-170,
-     y:10
+     x:0,
+     y:5
     },
     imageSrc: './img/Demon/PNG/breath.png',
     framesMax:5,
-    framesHold:2,
+    framesHold:3,
     scale:1.1
 })
 
@@ -121,7 +121,7 @@ sprites:{
     hit:{
         imageSrc:'./img/EvilWizard/Takehit.png',
         framesMax:3,
-        framesHold:2,
+        framesHold:6,
     }
 },
 attackBox: {
@@ -152,7 +152,7 @@ const enemy = new Fighter ({
   framesMax:6,
   scale:1,
   offset:{
-    x:120,
+    x:6,
     y:55
   },
   sprites:{
@@ -191,15 +191,20 @@ const enemy = new Fighter ({
         imageSrc: './img/Demon/PNG/demon-flyback.png',
         framesMax:6,
         framesHold:5,
+    },
+    hit:{
+        imageSrc: './img/Demon/PNG/demon-flyback.png',
+        framesMax:6,
+        framesHold:5,
     }
 },
 attackBox: {
     offset: {
-      x: 0,
+      x: -100,
       y: 0  
     },
-    width: 110,
-    height: 50
+    width: 148,
+    height: 47
   }
 })
 
@@ -221,18 +226,22 @@ const keys = {
 }
 
 decreaseTimer()
-
+let isBreathAnimationActive = false;
 function ani() {
     window.requestAnimationFrame(ani)
     c.fillStyle = 'red'
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
-    breath.update()
     player.update()
     enemy.update()
     player.velocity.x=0
     enemy.velocity.x=0
-    
+    if (isBreathAnimationActive) {
+        breath.update();
+        if (breath.frameCurrent === breath.framesMax - 1) {
+          isBreathAnimationActive = false; // Reset the flag when the animation completes
+        }
+      }
     //Player Movement
     
     if (keys.a.pressed && player.lastkey === 'a'){
@@ -240,6 +249,7 @@ function ani() {
         if(player.position.x <= 0)
         {
             bonecrack.play();
+            
             player.velocity.x = 0
         }
         else {
@@ -277,7 +287,7 @@ function ani() {
           }
          else{
          enemy.velocity.x = -6
-         breath.position.x = enemy.position.x + (-430);
+         breath.position.x = enemy.position.x + (-130);
          
              }
         enemy.switchSprite('run')
@@ -291,7 +301,7 @@ function ani() {
         }
         else{
         enemy.velocity.x = 6
-        breath.position.x = enemy.position.x + (-430);
+        breath.position.x = enemy.position.x + (-130);
             }
         enemy.switchSprite('runback')
      }else{
@@ -317,8 +327,11 @@ function ani() {
     ){
            player.isAttacking = false
            hitplayer.play();
-           enemy.health -= 5
+           enemy.takeHit();
            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+           
+           // when the opponent is weak or strong use this
+           //    enemy.health -= 5
     }
     // if player misses attack
     if (player.isAttacking && player.frameCurrent === 6){
@@ -331,14 +344,20 @@ function ani() {
         rectangle2: player})
         && enemy.isAttacking && enemy.frameCurrent === 8
         )
-        {enemy.isAttacking = false
+        {   enemy.isAttacking = false
             hitenemy.play();
-            player.health -= 5
+            breath.update();
             document.querySelector('#playerHealth').style.width = player.health + '%'
-            player.switchSprite('hit')
+            player.takeHit();
+
+            // when the opponent is weak or strong use this
+            // player.health -= 5
+            // breath.update();
+            // player.switchSprite('hit')   
         }
             // if enemy misses attack
     if (enemy.isAttacking && enemy.frameCurrent === 8){
+        breath.update();
         enemy.isAttacking = false
     }
 
@@ -385,11 +404,13 @@ window.addEventListener('keydown', (event)=> {
         enemy.velocity.y = -20
         break
         case 'ArrowDown':
-        // const decreasex = 125
-        // const decreasey = 550
-        // enemy.position.x -= decreasex;
-        // enemy.position.y -= decreasey;
         enemy.attack(0)
+        if (!isBreathAnimationActive) { // Check if the animation is not active
+            enemy.attack(0);
+            isBreathAnimationActive = true; // Set the flag to indicate the animation is active
+            breath.update();
+          }
+        // Spriteattack(breath)
         break
     }
 })

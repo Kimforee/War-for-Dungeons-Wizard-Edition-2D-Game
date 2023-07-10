@@ -238,7 +238,7 @@ function animation(){
     l8.update(context);
     l9.update(context);
     moon.update();
-     moon1.update();
+    moon1.update();
     l10.update(context);
     l11.update(context);
     EvilWizard.update()

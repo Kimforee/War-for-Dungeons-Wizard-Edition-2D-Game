@@ -45,8 +45,16 @@ class Sprite {
      this.animateFrame()
     }
     
-    
-    
+    Spriteattack(breath)
+    {
+        if(this.image !== breath.image)
+                {
+                    this.image      = breath.image
+                    this.framesMax  = breath.framesMax
+                    this.framesHold = breath.framesHold
+                    this.frameCurrent = 0
+                }
+    }    
 }
 
 class Fighter extends Sprite {
@@ -79,11 +87,8 @@ class Fighter extends Sprite {
                 y: this.position.y    
             },
             offset: attackBox.offset,
-            width: attackBox.width,
+            width : attackBox.width,
             height: attackBox.height
-            // offset,
-            // width: 100,
-            // height: 20
         }
         this.color = color
         this.isAttacking
@@ -106,32 +111,31 @@ class Fighter extends Sprite {
      this.attackBox.position.x = this.position.x + this.attackBox.offset.x
      this.attackBox.position.y = this.position.y + this.attackBox.offset.y
 
-        c.fillRect(this.attackBox.position.x,
-                    this.attackBox.position.y,
-                    this.attackBox.width,
-                    this.attackBox.height 
-                )
+        // c.fillRect(this.attackBox.position.x,
+        //             this.attackBox.position.y,
+        //             this.attackBox.width,
+        //             this.attackBox.height 
+        //         )
     
      this.position.x = this.position.x + this.velocity.x
      this.position.y = this.position.y + this.velocity.y
-    //  gravity function 
+     
+     //  gravity function 
      if(this.position.y + this.height + this.velocity.y >=canvas.height-50)
      {
-        
         this.velocity.y=0
          this.position.y=430
-        
      }
      else{
         this.velocity.y = this.velocity.y + gravity
      }
     }
-    
     attack(attacktype)
     {
     if (attacktype == 0)
     {
-       this.switchSprite('attack1') 
+       this.switchSprite('attack1')
+
     } 
     else if (attacktype == 1)
     {
@@ -144,12 +148,20 @@ class Fighter extends Sprite {
     //      }, 100 ); 
     }
 
+    takeHit(){
+        this.switchSprite('hit')
+        this.health -= 5
+    }
+
     switchSprite(sprite)
     {
         if (this.image === this.sprites.attack1.image && this.frameCurrent < this.sprites.attack1.framesMax - 1) {
         return;
         }
         if (this.image === this.sprites.attack2.image && this.frameCurrent < this.sprites.attack2.framesMax - 1) {
+        return;
+        }
+        if (this.image === this.sprites.hit.image && this.frameCurrent < this.sprites.hit.framesMax - 1) {
         return;
         }
         // if (this.image === this.sprites.hit.image && this.frameCurrent < this.sprites.hit.framesMax - 1) {
@@ -159,8 +171,8 @@ class Fighter extends Sprite {
             case 'idle':
                 if(this.image !== this.sprites.idle.image)
                 {
-                    this.image = this.sprites.idle.image
-                    this.framesMax = this.sprites.idle.framesMax
+                    this.image      = this.sprites.idle.image
+                    this.framesMax  = this.sprites.idle.framesMax
                     this.framesHold = this.sprites.idle.framesHold
                     this.frameCurrent = 0
                 }
@@ -168,18 +180,18 @@ class Fighter extends Sprite {
             case 'run':
                 if(this.image !== this.sprites.run.image)
                 {
-                    this.image = this.sprites.run.image
+                    this.image     = this.sprites.run.image
                     this.framesMax = this.sprites.run.framesMax
-                    this.framesHold = this.sprites.run.framesHold
+                    this.framesHold= this.sprites.run.framesHold
                     this.frameCurrent = 0
                 }
                 break
             case 'runback':
                 if(this.image !== this.sprites.runback.image)
                 {
-                    this.image = this.sprites.runback.image
+                    this.image     = this.sprites.runback.image
                     this.framesMax = this.sprites.runback.framesMax
-                    this.framesHold = this.sprites.runback.framesHold
+                    this.framesHold= this.sprites.runback.framesHold
                     this.frameCurrent = 0
                 }
                 break

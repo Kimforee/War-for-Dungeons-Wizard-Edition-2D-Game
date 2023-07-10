@@ -1,10 +1,10 @@
 // start button wobble effect
 const startButton      = document.getElementById('startButton');
-startButton.addEventListener ('mouseover', () =>{
+startButton.addEventListener ('onmouseover', () =>{
     startButton.classList.add('button-zoom');
 })
 
-startButton.addEventListener  ('mouseout', () =>{
+startButton.addEventListener  ('onmouseout', () =>{
     startButton.classList.add('button-zoom');
 })
 
