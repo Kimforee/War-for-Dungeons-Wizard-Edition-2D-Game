@@ -47,7 +47,22 @@ const breath = new Sprite({
     },
     imageSrc: './img/Demon/PNG/breath.png',
     framesMax:5,
-    framesHold:3,
+    framesHold:2,
+    scale:1.1
+})
+
+const breath_fire = new Sprite({
+    position:{
+        x:755,
+        y:440
+    },
+    offset:{
+     x:0,
+     y:5
+    },
+    imageSrc: './img/Demon/PNG/breath-fire.png',
+    framesMax:5,
+    framesHold:2,
     scale:1.1
 })
 
@@ -111,7 +126,7 @@ sprites:{
     attack2:{
         imageSrc:'./img/EvilWizard/Attack1.png',
         framesMax:8,
-        framesHold:2
+        framesHold:0.5
     },
     runback: {
         imageSrc:'./img/EvilWizard/Runback.png',
@@ -183,8 +198,8 @@ const enemy = new Fighter ({
         framesHold:5,
     },
     attack2:{
-        imageSrc: './img/Demon/PNG/demon-attack2.png',
-        framesMax:11,
+        imageSrc: './img/Demon/PNG/demon-attack-no-breath1.png',
+        framesMax:8,
         framesHold:5
     },
     runback:{
@@ -227,6 +242,7 @@ const keys = {
 
 decreaseTimer()
 let isBreathAnimationActive = false;
+let isFireAnimationActive = false;
 function ani() {
     window.requestAnimationFrame(ani)
     c.fillStyle = 'red'
@@ -239,11 +255,22 @@ function ani() {
     if (isBreathAnimationActive) {
         breath.update();
         if (breath.frameCurrent === breath.framesMax - 1) {
-          isBreathAnimationActive = false; // Reset the flag when the animation completes
+          isBreathAnimationActive = false;
+          breath.frameCurrent = 0 
         }
       }
+
+    if (isFireAnimationActive) 
+    {
+        breath_fire.update();
+        if (breath_fire.frameCurrent === breath_fire.framesMax - 1) 
+        {
+            isFireAnimationActive = false;
+            breath_fire.frameCurrent = 0
+        }
+    }
+
     //Player Movement
-    
     if (keys.a.pressed && player.lastkey === 'a'){
         player.switchSprite('runback')
         if(player.position.x <= 0)
@@ -287,8 +314,8 @@ function ani() {
           }
          else{
          enemy.velocity.x = -6
-         breath.position.x = enemy.position.x + (-130);
-         
+         breath.position.x = enemy.position.x + (-130); 
+         breath_fire.position.x = enemy.position.x + (-130);         
              }
         enemy.switchSprite('run')
              
@@ -302,6 +329,7 @@ function ani() {
         else{
         enemy.velocity.x = 6
         breath.position.x = enemy.position.x + (-130);
+        breath_fire.position.x = enemy.position.x + (-130);
             }
         enemy.switchSprite('runback')
      }else{
@@ -333,6 +361,7 @@ function ani() {
            // when the opponent is weak or strong use this
            //    enemy.health -= 5
     }
+
     // if player misses attack
     if (player.isAttacking && player.frameCurrent === 6){
         player.isAttacking = false
@@ -346,7 +375,7 @@ function ani() {
         )
         {   enemy.isAttacking = false
             hitenemy.play();
-            breath.update();
+            // breath.update();
             document.querySelector('#playerHealth').style.width = player.health + '%'
             player.takeHit();
 
@@ -357,13 +386,15 @@ function ani() {
         }
             // if enemy misses attack
     if (enemy.isAttacking && enemy.frameCurrent === 8){
-        breath.update();
+        // breath.update();
         enemy.isAttacking = false
     }
 
         // end game based on health
-        if (enemy.health <= 0 || player.health <=0)
+        let determine = false;
+        if (enemy.health <= 0 || player.health <=0 && determine === false)
         {
+          determine = true;
           determineWinner({player,enemy,timerId})  
         }
 }
@@ -403,15 +434,25 @@ window.addEventListener('keydown', (event)=> {
         case 'ArrowUp':
         enemy.velocity.y = -20
         break
+
+        // blue fire breathing style
         case 'ArrowDown':
-        enemy.attack(0)
-        if (!isBreathAnimationActive) { // Check if the animation is not active
-            enemy.attack(0);
-            isBreathAnimationActive = true; // Set the flag to indicate the animation is active
-            breath.update();
+        if (!isBreathAnimationActive)
+          {
+            enemy.attack(0)
+            isBreathAnimationActive = true;
           }
-        // Spriteattack(breath)
         break
+
+        // fire breathing style :)
+        case 'Control':
+        if (!isFireAnimationActive)
+        {
+            enemy.attack(1);
+            isFireAnimationActive = true;
+        }
+        break;
+
     }
 })
 

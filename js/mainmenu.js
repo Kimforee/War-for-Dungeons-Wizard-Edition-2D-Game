@@ -17,6 +17,7 @@ class Spritemenu {
     this.position = position;
     this.parallaxSpeed = parallaxSpeed;
     this.duplicatePosition = { x: -this.image.width, y: this.position.y };
+    this.isInitialized = false; // to track initialization status
   }
 
   draw(context) {
@@ -25,10 +26,15 @@ class Spritemenu {
       this.image,
       this.duplicatePosition.x,
       this.duplicatePosition.y
-    ); 
+    );
   }
 
   update(context) {
+    if (!this.isInitialized) {
+      this.draw(context); // Draw the images at the initial positions
+      this.isInitialized = true; 
+      return;
+    }
     this.position.x -= this.parallaxSpeed;
     this.duplicatePosition.x -= this.parallaxSpeed;
 
@@ -43,8 +49,9 @@ class Spritemenu {
     }
 
     this.draw(context);
-   }
+  }
 }
+
 
 
 // Heading animation
@@ -113,7 +120,7 @@ const l0= new Spritemenu({
     const  l10= new Spritemenu({
 
         imageSrc: './img/Backlayers/2.png',
-        parallaxSpeed: 1.4,
+        parallaxSpeed: 1.2,
       });
     const  l11= new Spritemenu({
 
@@ -132,6 +139,7 @@ const skullmenu = new Sprite({
     scale : 0.9,
     framesHold:10
 })
+
 //Moom 0
 const moon= new Sprite({
     position:{
@@ -221,6 +229,7 @@ sprites:{
     }
 }
 })
+// Wizard in the main window
 EvilWizard.draw()
 
 function animation(){
@@ -243,10 +252,7 @@ function animation(){
     l11.update(context);
     EvilWizard.update()
     skullmenu.update()
-    
-   
 
-    
 }
 animation()
 
@@ -279,6 +285,7 @@ function movePlayer() {
     EvilWizard.velocity.x = 4 * direction;
 }
 setInterval(movePlayer, 1000);
+
 // let timermoves = 20 
 // let timerI
 //   function movesdetector(){
