@@ -18,11 +18,13 @@ function rcollision({ rectangle1,rectangle2 }) {
          } 
          else if (player.health > enemy.health && !flag) {
           ghost.update()
+          playEffect('demondead')
           document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
           flag = true
          } 
          else if (player.health < enemy.health && !flag) {
-          skull.update()  
+          skull.update()
+          playEffect('playerdead')
           document.querySelector('#displayText').innerHTML = 'Player 2 Wins' 
           flag = true        
          }   

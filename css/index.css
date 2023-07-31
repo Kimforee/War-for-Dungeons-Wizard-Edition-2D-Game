@@ -21,6 +21,18 @@
     background: #efefef;
     
    }
+
+#displayText {
+  position: absolute;
+  top: 320px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  font-family: 'Krona One';
+  justify-content: center;
+}
 #menuContainer {
     position: relative;
     display: inline-block;

@@ -3,8 +3,50 @@ const c = canvas.getContext('2d') /*c stands for context*/
 const gravity = 1   
 var wallcrash =  new Audio('hugecrack.mp3')
 var bonecrack =  new Audio('broke.mp3')
-var hitenemy  =  new Audio('ene_sound.mp3')
-var hitplayer =  new Audio('pla_sound.mp3')
+
+
+const soundEffect = [];
+
+// loading sound effects
+function loadEffect(){
+    soundEffect['firebreath'] = new Howl({
+        src: ['audio/short-fire_2.wav'],
+        volume:0.5
+    });
+    soundEffect['breath'] = new Howl({
+        src: ['audio/short-fire_2.wav'],
+        volume:0.5
+    });
+    soundEffect['hit_player'] = new Howl({
+        src: ['audio/Demon Hurt Roar.mp3'],
+        volume:0.4
+    });
+    soundEffect['hit_enemy'] = new Howl({
+        src: ['audio/ene_sound.mp3'],
+        volume:0.5
+    });
+    soundEffect['demondead'] = new Howl({
+        src: ['audio/Demon Hurt Roar 6.mp3'],
+        volume:0.3
+    });
+    soundEffect['wizardattack'] = new Howl({
+        src: ['audio/wizard-fire.wav'],
+        volume:0.3
+    });
+    soundEffect['wizardgethit'] = new Howl({
+        src: ['audio/wizhit_2.wav'],
+        volume:0.3
+    });
+}
+
+function playEffect(effectName){
+    const sound = soundEffect[effectName];
+    if(sound){
+        sound.play();
+    }
+}
+
+loadEffect();
 
 const background = new Sprite({
     position:{
@@ -36,10 +78,14 @@ const ghost = new Sprite({
     scale : 2,
 })
 
-const breath = new Sprite({
+const breath = new Fighter({
     position:{
         x:755,
         y:440
+    },
+    velocity: {
+        x: 0,
+        y: 10
     },
     offset:{
      x:0,
@@ -51,10 +97,14 @@ const breath = new Sprite({
     scale:1.1
 })
 
-const breath_fire = new Sprite({
+const breath_fire = new Fighter({
     position:{
         x:755,
         y:440
+    },
+    velocity: {
+        x: 0,
+        y: 10
     },
     offset:{
      x:0,
@@ -62,7 +112,7 @@ const breath_fire = new Sprite({
     },
     imageSrc: './img/Demon/PNG/breath-fire.png',
     framesMax:5,
-    framesHold:2,
+    framesHold:6,
     scale:1.1
 })
 
@@ -137,6 +187,11 @@ sprites:{
         imageSrc:'./img/EvilWizard/Takehit.png',
         framesMax:3,
         framesHold:6,
+    },
+    death:{
+        imageSrc:'./img/EvilWizard/Death.png',
+        framesMax:7,
+        framesHold:1,
     }
 },
 attackBox: {
@@ -211,6 +266,11 @@ const enemy = new Fighter ({
         imageSrc: './img/Demon/PNG/demon-flyback.png',
         framesMax:6,
         framesHold:5,
+    },
+    death:{
+        imageSrc: './img/Demon/PNG/demon_dead.png',
+        framesMax:6,
+        framesHold:1,
     }
 },
 attackBox: {
@@ -254,7 +314,7 @@ function ani() {
     enemy.velocity.x=0
     if (isBreathAnimationActive) {
         breath.update();
-        if (breath.frameCurrent === breath.framesMax - 1) {
+        if (breath.frameCurrent === breath.framesMax - 1){
           isBreathAnimationActive = false;
           breath.frameCurrent = 0 
         }
@@ -263,12 +323,11 @@ function ani() {
     if (isFireAnimationActive) 
     {
         breath_fire.update();
-        if (breath_fire.frameCurrent === breath_fire.framesMax - 1) 
-        {
+        if (breath_fire.frameCurrent === breath_fire.framesMax - 1){
             isFireAnimationActive = false;
             breath_fire.frameCurrent = 0
         }
-    }
+      }
 
     //Player Movement
     if (keys.a.pressed && player.lastkey === 'a'){
@@ -276,7 +335,6 @@ function ani() {
         if(player.position.x <= 0)
         {
             bonecrack.play();
-            
             player.velocity.x = 0
         }
         else {
@@ -311,7 +369,7 @@ function ani() {
          {
             bonecrack.play();
             enemy.velocity.x = 0
-          }
+         }
          else{
          enemy.velocity.x = -6
          breath.position.x = enemy.position.x + (-130); 
@@ -354,7 +412,7 @@ function ani() {
         && player.isAttacking && player.frameCurrent === 6
     ){
            player.isAttacking = false
-           hitplayer.play();
+           playEffect('hit_player');
            enemy.takeHit();
            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
            
@@ -367,26 +425,25 @@ function ani() {
         player.isAttacking = false
     }
 
-    //detect for collision for enemy
+    // detect for collision for enemy the demon
     if(rcollision({
         rectangle1: enemy,
         rectangle2: player})
-        && enemy.isAttacking && enemy.frameCurrent === 8
+        && enemy.isAttacking && enemy.frameCurrent === 7
         )
         {   enemy.isAttacking = false
-            hitenemy.play();
-            // breath.update();
+            playEffect('wizardgethit');     
             document.querySelector('#playerHealth').style.width = player.health + '%'
             player.takeHit();
-
+ 
             // when the opponent is weak or strong use this
             // player.health -= 5
             // breath.update();
             // player.switchSprite('hit')   
         }
             // if enemy misses attack
-    if (enemy.isAttacking && enemy.frameCurrent === 8){
-        // breath.update();
+    if (enemy.isAttacking && enemy.frameCurrent === 7){
+        
         enemy.isAttacking = false
     }
 
@@ -402,6 +459,7 @@ function ani() {
 ani()
 
 window.addEventListener('keydown', (event)=> {
+    if (!player.dead){
     switch(event.key){
         // Hero
         case 'd':
@@ -417,10 +475,16 @@ window.addEventListener('keydown', (event)=> {
         break
         case 's':
         player.attack(0)
+        playEffect('wizardattack')
         break
         case 'e':
         player.attack(1)
+        playEffect('wizardattack')
         break
+    }
+}
+    if (!enemy.dead){
+    switch(event.key){
 
         //Enemy
         case 'ArrowRight':
@@ -433,27 +497,27 @@ window.addEventListener('keydown', (event)=> {
         break
         case 'ArrowUp':
         enemy.velocity.y = -20
+        breath.velocity.y = -20
+        breath_fire.velocity.y = -20
         break
-
         // blue fire breathing style
         case 'ArrowDown':
-        if (!isBreathAnimationActive)
-          {
+        playEffect('firebreath');
+        if (!isBreathAnimationActive){
             enemy.attack(0)
             isBreathAnimationActive = true;
           }
         break
-
         // fire breathing style :)
-        case 'Control':
-        if (!isFireAnimationActive)
-        {
-            enemy.attack(1);
+        case 'Control':  
+        playEffect('firebreath');
+        if (!isFireAnimationActive){
+            enemy.attack(0)
             isFireAnimationActive = true;
         }
         break;
-
     }
+}
 })
 
 window.addEventListener('keyup', (event)=>{
